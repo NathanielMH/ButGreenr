@@ -39,16 +39,17 @@ for i in range(len(data)):
         recipe_ingr.append(data[i]['ingredients'][k]['text'])
     l = 0
     for j in range(len(ingredients)):
-        #total_weight = 0
+        total_weight = 0
         if ingredients[j] in recipe_ingr:
             recipes[i].append(data[i]['weight_per_ingr'][l])
-            #total_weight += data[i]['weight_per_ingr'][l]
+            total_weight += data[i]['weight_per_ingr'][l]
             l += 1
         else:
             recipes[i].append(0)
     #recipes[i] = scale_recipe(recipes[i], quantity, total_weight)
     recipes[i].append(data[i]['id'])  # add whatever info we need.
     recipes[i].append(data[i]['title'])
+    recipes[i].append(total_weight)
 
 save_path = "recipes.json"
 with open(save_path, 'w', encoding='utf-8') as file:
