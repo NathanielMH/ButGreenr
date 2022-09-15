@@ -21,14 +21,7 @@ file.close()
 X = np.array(X)
 y = np.array(y)
 
-# Normalize the data
-
-X_mean = np.mean(X)
-X_std = np.std(X)
-
-X_norm = (X - X_mean) / (X_std + epsilon)
-
-X_train_norm, X_test_norm, y_train, y_test = train_test_split(X_norm, y)
+X_train, X_test, y_train, y_test = train_test_split(X, y)
 
 num_recipes = MAX_RECIPES
 
@@ -53,10 +46,10 @@ h = model.fit(
     epochs=300
 )
 
-loss, accuracy = model.evaluate(X_test_norm, y_test)
+loss, accuracy = model.evaluate(X_test, y_test)
 
 # Make predictions
-preds = model.predict(X_test_norm)
+preds = model.predict(X_test)
 
 # Plot model predictions
 plt.figure(figsize=(12, 12))
