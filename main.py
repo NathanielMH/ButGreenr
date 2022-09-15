@@ -5,7 +5,9 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from recircula_functions import exec, recipe_builder
-from recircula_functions import recipes,ingredients
+from recircula_functions import recipes, ingredients
+import tensorflow as tf
+import numpy as np
 
 
 class childApp(GridLayout):
@@ -28,10 +30,15 @@ class childApp(GridLayout):
         self.add_widget(self.answer)
 
     def click_me(self, instance):
+        # normalize recipe
         my_ingredients = recipe_builder(self.recipe.text, ingredients)
-        answer = exec(my_ingredients, recipes, float(self.serving_size.text))
-        for i in range(len(answer)):
-            self.answer.text += answer[i]["name"]+"\n"
+        # answer = exec(my_ingredients, recipes, float(self.serving_size.text))
+        model = tf.keras.models.load_model('recipe_model.h5')
+        my_input = np.array([my_ingredients])
+        model_ans = model.predict(my_input)
+        answer_class = np.argmax(model_ans)
+        answer = recipes[answer_class]
+        self.answer.text += answer["name"] + "\n"
 
 
 class parentApp(App):
