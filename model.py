@@ -41,7 +41,7 @@ model.compile(
 
 # Train the model
 h = model.fit(
-    X_train_norm,
+    X_train,
     y_train,
     epochs=300
 )
